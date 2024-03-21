@@ -1,34 +1,25 @@
 #!/usr/bin/python3
-"""Minimum Operations"""
+""" Module for 0-minoperations"""
 
 
-def minOperations(n: int) -> int:
+def minOperations(n):
     """
-    Minimum Operations needed to get n H characters
-
-    Args:
-        n (int): The desired number of H characters.
-
-    Returns:
-        int: The minimum number of operations needed to obtain n H characters,
-             or 0 if it's impossible to achieve.
+    minOperations
+    Gets fewest # of operations needed to result in exactly n H characters
     """
-    if n <= 1:
-        return n  # If n is 0 or 1, no operations needed
-
-    op = 0
-    clipboard = 1  # Initial H character
-    body = 1  # Initial H character
-
-    while body < n:
-        if n % body == 0:
-            op += 2  # Copy All and Paste
-            clipboard = body  # Update clipboard to current body
-            body += clipboard  # Paste the current body
-        else:
-            op += 1  # Only Paste
-            body += clipboard  # Paste the clipboard
-
-    if body != n:
-        return 0  # Impossible to achieve n H characters
-    return op
+    # all outputs should be at least 2 char: (min, Copy All => Paste)
+    if (n < 2):
+        return 0
+    ops, root = 0, 2
+    while root <= n:
+        # if n evenly divides by root
+        if n % root == 0:
+            # total even-divisions by root = total operations
+            ops += root
+            # set n to the remainder
+            n = n / root
+            # reduce root to find remaining smaller vals that evenly-divide n
+            root -= 1
+        # increment root until it evenly-divides n
+        root += 1
+    return ops
