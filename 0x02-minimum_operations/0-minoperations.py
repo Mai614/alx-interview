@@ -1,15 +1,21 @@
-#!/usr/bin/python3
-"""
-Main file for testing
-"""
+def minOperations(n):
+    if n <= 1:
+        return n
 
-# Importing the minOperations function from the 0-minoperations module
-minOperations = __import__('0-minoperations').minOperations
+    oper = 0
+    remaining = n
+    clip = 1  # Initial H character
 
-# Testing the minOperations function with n = 4
-n = 4
-print("Min # of operations to reach {} char: {}".format(n, minOperations(n)))
+    while remaining > 1:
+        if remaining % clip == 0:
+            oper += 1
+            remaining //= clip  # Update remaining count
+        else:
+            # If not, copy all and paste
+            oper += 2
+            clip = remaining
 
-# Testing the minOperations function with n = 12
-n = 12
-print("Min # of operations to reach {} char: {}".format(n, minOperations(n)))
+        remaining -= clip
+
+    oper += remaining
+    return oper
